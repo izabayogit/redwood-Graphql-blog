@@ -7,17 +7,21 @@
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
-import { Router, Route,Set } from '@redwoodjs/router'
+import { Router, Route,Set, PrivateSet } from '@redwoodjs/router'
 
 import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
 import BlogLayout from './layouts/BlogLayout/BlogLayout'
 
+import { useAuth } from './auth'
+
 const Routes = () => {
   return (
-    <Router>
-
-
-
+    <Router useAuth={useAuth}>
+    <Route path="/login" page={LoginPage} name="login" />
+    <Route path="/signup" page={SignupPage} name="signup" />
+    <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+    <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+    <PrivateSet unauthenticated="home">
       <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
         <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
         <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
@@ -26,6 +30,7 @@ const Routes = () => {
 
 
       </Set>
+      </PrivateSet>
       <Set wrap={BlogLayout}>
         <Route path="/about" page={AboutPage} name="about" />
         <Route path="/" page={HomePage} name="home" />

@@ -5,7 +5,7 @@
 // https://www.prisma.io/docs/orm/prisma-migrate
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -30,4 +30,14 @@ model Contact {
   email String
   message String
   createAt DateTime @default(now())
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String?
+  email String @unique
+  hashedPassword String
+  salt  String
+  resetToken String?
+  resetTokenExpiresAt DateTime?
 }
